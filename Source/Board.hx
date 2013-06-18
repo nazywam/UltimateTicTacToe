@@ -42,18 +42,36 @@ class Board {
 		mc.graphics.lineTo( posX+10, posY+size );
 		mc.graphics.endFill();
 	}
-	private function drawLine(posX : Int, posY : Int, width: Int):Void{
-
+	private function drawLines(tileSize : Int):Void{
+		var mc : flash.display.MovieClip = flash.Lib.current;
+		for(x in 0...10){
+			if(x%3==0){
+				mc.graphics.beginFill( 0xFF0000 );
+				mc.graphics.moveTo( x*tileSize-2, 0 );				
+				mc.graphics.lineTo( x*tileSize-2, sqSize );
+				mc.graphics.lineTo( x*tileSize+2, sqSize );				
+				mc.graphics.lineTo( x*tileSize+2, 0 );
+				mc.graphics.endFill();
+			}
+		}
+		for(y in 0...10){
+			if(y%3==0){
+				mc.graphics.beginFill( 0xFF0000 );
+				mc.graphics.moveTo( 0, y*tileSize-2 );				
+				mc.graphics.lineTo( sqSize, y*tileSize-2 );
+				mc.graphics.lineTo( sqSize, y*tileSize+2 );				
+				mc.graphics.lineTo( 0, y*tileSize+2 );
+				mc.graphics.endFill();
+			}
+		}
 	}
 	public function draw():Void{
 		var tileSize : Int = Std.int(sqSize/9);
-		for(x in 0...9){
-			trace(map[x].toString());	
-		}
+		drawLines(tileSize);
 		for(y in 0...9){
 			for(x in 0...9){
 				if(map[y][x]==0){
-					drawX(y*tileSize,x*tileSize, tileSize);
+					//drawX(y*tileSize,x*tileSize, tileSize);
 				}
 				else if(map[y][x]==2){
 					drawO(y*tileSize,x*tileSize, tileSize);
