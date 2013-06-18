@@ -1,7 +1,7 @@
 class Main {
     static function main() {
 
-	var Board = new Board();
-
+	var board = new Board();
+	board.draw();
     }
 }
