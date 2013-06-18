@@ -1,7 +1,7 @@
 class Board {
-	var map = Array<Array<Int>>();
 	public function new():Void {
 
+		var map = new Array<Array<Int>>();
 		var line = new Array<Int>();
 		for(x in 0...9) {
 			line.insert(x,0);
@@ -11,6 +11,6 @@ class Board {
 			map.insert(x, line);
 		}
 
-		//trace(map.toString());	
+		trace(map.toString());	
 	} 
 }
