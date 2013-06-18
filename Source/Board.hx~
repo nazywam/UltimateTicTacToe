@@ -1,5 +1,5 @@
 class Board {
-	var scores : Array<Int>
+	var scores : Array<Array<Int>>;
 	public function new():Void{
 		
 	} 
