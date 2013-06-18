@@ -48,8 +48,8 @@ class Board {
 			if(x%3==0){
 				mc.graphics.beginFill( 0xFF0000 );
 				mc.graphics.moveTo( x*tileSize-2, 0 );				
-				mc.graphics.lineTo( x*tileSize-2, sqSize );
-				mc.graphics.lineTo( x*tileSize+2, sqSize );				
+				mc.graphics.lineTo( x*tileSize-2, sqSize-4 );
+				mc.graphics.lineTo( x*tileSize+2, sqSize-4 );				
 				mc.graphics.lineTo( x*tileSize+2, 0 );
 				mc.graphics.endFill();
 			}
@@ -58,8 +58,8 @@ class Board {
 			if(y%3==0){
 				mc.graphics.beginFill( 0xFF0000 );
 				mc.graphics.moveTo( 0, y*tileSize-2 );				
-				mc.graphics.lineTo( sqSize, y*tileSize-2 );
-				mc.graphics.lineTo( sqSize, y*tileSize+2 );				
+				mc.graphics.lineTo( sqSize-4, y*tileSize-2 );
+				mc.graphics.lineTo( sqSize-4, y*tileSize+2 );				
 				mc.graphics.lineTo( 0, y*tileSize+2 );
 				mc.graphics.endFill();
 			}
