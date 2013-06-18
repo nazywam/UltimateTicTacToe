@@ -1,6 +1,16 @@
+import flash.display.StageScaleMode;
+
 class Board {
 	var map : Array<Array<Int>>;
+	var sqSize : Int;	
 	public function new():Void {
+		var mc : flash.display.MovieClip = flash.Lib.current;
+									//mc.stage.scaleMode = StageScaleMode.NO_SCALE;
+		sqSize = Std.int(mc.stage.width);
+		if(mc.stage.height<mc.stage.width){
+			sqSize = Std.int(mc.stage.height);
+		}		
+
 		map = new Array<Array<Int>>();
 		var line = new Array<Int>();
 		for(x in 0...9) {
@@ -31,8 +41,11 @@ class Board {
 		}
 		for(y in 0...9){
 			for(x in 0...9){
-				if(map[y][x]==0){
+				if(map[y][x]==1){
 					drawX(y,x,10);
+				}
+				else if(map[y][x]==2){
+					drawO(y,x,10);
 				}
 			}
 		}			
