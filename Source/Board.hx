@@ -28,14 +28,14 @@ class Board {
 	}
 	private function drawX(posX : Int,  posY : Int,  size : Int):Void{
 		var mc : flash.display.MovieClip = flash.Lib.current;
-		mc.graphics.beginFill( 0xFF0000 );
+		mc.graphics.beginFill( 0x000000 );
 		mc.graphics.moveTo( posX, posY );
 		mc.graphics.lineTo( posX+size, posY+size );
 		mc.graphics.lineTo( posX+size-10, posY+size );
 		mc.graphics.lineTo( posX, posY+10 );
 		mc.graphics.endFill();
 
-		mc.graphics.beginFill( 0xFF0000 );
+		mc.graphics.beginFill( 0x000000 );
 		mc.graphics.moveTo( posX, posY+size );
 		mc.graphics.lineTo( posX+size, posY );
 		mc.graphics.lineTo( posX+size, posY+10 );
@@ -44,26 +44,29 @@ class Board {
 	}
 	private function drawLines(tileSize : Int):Void{
 		var mc : flash.display.MovieClip = flash.Lib.current;
+		var width : Int = 2;
 		for(x in 0...10){
-			if(x%3==0){
-				mc.graphics.beginFill( 0xFF0000 );
-				mc.graphics.moveTo( x*tileSize-2, 0 );				
-				mc.graphics.lineTo( x*tileSize-2, sqSize-4 );
-				mc.graphics.lineTo( x*tileSize+2, sqSize-4 );				
-				mc.graphics.lineTo( x*tileSize+2, 0 );
+			
+			if(x%3==0)width = 2;
+			else width = 1;
+				mc.graphics.beginFill( 0x000000 );
+				mc.graphics.moveTo( x*tileSize-width, 0 );				
+				mc.graphics.lineTo( x*tileSize-width, sqSize-4 );
+				mc.graphics.lineTo( x*tileSize+width, sqSize-4 );				
+				mc.graphics.lineTo( x*tileSize+width, 0 );
 				mc.graphics.endFill();
-			}
 		}
 		for(y in 0...10){
-			if(y%3==0){
-				mc.graphics.beginFill( 0xFF0000 );
-				mc.graphics.moveTo( 0, y*tileSize-2 );				
-				mc.graphics.lineTo( sqSize-4, y*tileSize-2 );
-				mc.graphics.lineTo( sqSize-4, y*tileSize+2 );				
-				mc.graphics.lineTo( 0, y*tileSize+2 );
+			if(y%3==0)width = 2;
+			else width = 1;
+				mc.graphics.beginFill( 0x000000 );
+				mc.graphics.moveTo( 0, y*tileSize-width );				
+				mc.graphics.lineTo( sqSize-4, y*tileSize-width );
+				mc.graphics.lineTo( sqSize-4, y*tileSize+width );				
+				mc.graphics.lineTo( 0, y*tileSize+width );
 				mc.graphics.endFill();
-			}
 		}
+		
 	}
 	public function draw():Void{
 		var tileSize : Int = Std.int(sqSize/9);
