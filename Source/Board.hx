@@ -4,11 +4,11 @@ import flash.display.Stage;
 import flash.events.MouseEvent;
 
 class Board extends Sprite{
-	var map : Array<Array<Int>>;
+	var map : Array<Int>;
 	var sqSize : Int;
 
 	function myClick(eventObject:MouseEvent) {
-		map[Std.int(eventObject.stageY/(sqSize/9))][Std.int(eventObject.stageX/(sqSize/9))]=1;
+		map[Std.int(eventObject.stageY/(sqSize/9))*9+Std.int(eventObject.stageX/(sqSize/9))]=1;
 		//trace(Std.int(eventObject.stageX/(sqSize/9)));
 		//trace(Std.int(eventObject.stageY/(sqSize/9)));
 		//trace(map[Std.int(eventObject.stageY/(sqSize/9))][Std.int(eventObject.stageX/(sqSize/9))]);
@@ -27,16 +27,12 @@ class Board extends Sprite{
 			sqSize = Std.int(mc.stage.height);
 		}		
 
-		map = new Array<Array<Int>>();
+		map = new Array<Int>();
 
 		
 
-		for(x in 0...9) {
-			var line = new Array<Int>();
-			for(x in 0...9) {
-				line.insert(x,0);
-			}
-			map.insert(x, line);
+		for(x in 0...81) {
+			map.insert(x, 0);
 		}
 		stage.addEventListener(MouseEvent.CLICK, myClick);
 		
@@ -108,16 +104,15 @@ class Board extends Sprite{
 		var tileSize : Int = Std.int(sqSize/9);
 		graphics.clear;
 		drawLines(tileSize);
-		for(y in 0...9){
-			for(x in 0...9){
-				if(map[y][x]==1){
-					drawX(y*tileSize,x*tileSize, tileSize);
-				}
-				else if(map[y][x]==2){
-					drawO(y*tileSize,x*tileSize, tileSize);
-				}
+		for(x in 0...81){
+			if(map[x]==1){
+				drawX(Std.int(x/9)*tileSize,Std.int(x%9)*tileSize, tileSize);
 			}
+			else if(map[x]==2){
+				drawO(Std.int(x/9)*tileSize,Std.int(x%9)*tileSize, tileSize);
+			}
+		}
 		}			
 	
 	}
-}
+
