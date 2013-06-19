@@ -8,11 +8,12 @@ class Board extends Sprite{
 	var sqSize : Int;
 
 	function myClick(eventObject:MouseEvent) {
-		map[Std.int(eventObject.stageY/(sqSize/9))][Std.int(eventObject.stageX/(sqSize/9))]++;
-		trace(Std.int(eventObject.stageX/(sqSize/9)));
-		trace(Std.int(eventObject.stageY/(sqSize/9)));
-		trace(map[Std.int(eventObject.stageY/(sqSize/9))][Std.int(eventObject.stageX/(sqSize/9))]);
-		trace("");
+		map[Std.int(eventObject.stageY/(sqSize/9))][Std.int(eventObject.stageX/(sqSize/9))]=1;
+		//trace(Std.int(eventObject.stageX/(sqSize/9)));
+		//trace(Std.int(eventObject.stageY/(sqSize/9)));
+		//trace(map[Std.int(eventObject.stageY/(sqSize/9))][Std.int(eventObject.stageX/(sqSize/9))]);
+		trace(map.toString());
+		draw();
 	}
 		
 
@@ -27,12 +28,14 @@ class Board extends Sprite{
 		}		
 
 		map = new Array<Array<Int>>();
-		var line = new Array<Int>();
-		for(x in 0...9) {
-			line.insert(x,0);
-		}
+
+		
 
 		for(x in 0...9) {
+			var line = new Array<Int>();
+			for(x in 0...9) {
+				line.insert(x,0);
+			}
 			map.insert(x, line);
 		}
 		stage.addEventListener(MouseEvent.CLICK, myClick);
@@ -40,7 +43,7 @@ class Board extends Sprite{
 		
 	} 
 	
-	private function drawO(posX : Int,  posY : Int,  size : Int):Void{
+	private function drawO(posY : Int,  posX : Int,  size : Int):Void{
 	
 		var mc : flash.display.MovieClip = flash.Lib.current;
 		mc.graphics.beginFill( 0x000000 );
@@ -58,7 +61,7 @@ class Board extends Sprite{
 		mc.graphics.endFill();
 
 	}
-	private function drawX(posX : Int,  posY : Int,  size : Int):Void{
+	private function drawX(posY : Int,  posX : Int,  size : Int):Void{
 		var mc : flash.display.MovieClip = flash.Lib.current;
 		mc.graphics.beginFill( 0x000000 );
 		mc.graphics.moveTo( posX+10, posY+10 );
@@ -103,14 +106,11 @@ class Board extends Sprite{
 	public function draw():Void{	
 
 		var tileSize : Int = Std.int(sqSize/9);
+		graphics.clear;
 		drawLines(tileSize);
 		for(y in 0...9){
 			for(x in 0...9){
-				if(map[y][x]==0){
-					drawO(y*tileSize,x*tileSize, tileSize);
-					drawX(y*tileSize,x*tileSize, tileSize);
-				}
-				else if(map[y][x]==1){
+				if(map[y][x]==1){
 					drawX(y*tileSize,x*tileSize, tileSize);
 				}
 				else if(map[y][x]==2){
