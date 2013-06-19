@@ -1,11 +1,26 @@
-import flash.display.StageScaleMode;
 
-class Board {
+import flash.display.Sprite;
+import flash.display.Stage;
+import flash.events.MouseEvent;
+
+class Board extends Sprite{
 	var map : Array<Array<Int>>;
-	var sqSize : Int;	
+	var sqSize : Int;
+
+	function myClick(eventObject:MouseEvent) {
+		map[Std.int(eventObject.stageY/(sqSize/9))][Std.int(eventObject.stageX/(sqSize/9))]++;
+		trace(Std.int(eventObject.stageX/(sqSize/9)));
+		trace(Std.int(eventObject.stageY/(sqSize/9)));
+		trace(map[Std.int(eventObject.stageY/(sqSize/9))][Std.int(eventObject.stageX/(sqSize/9))]);
+		trace("");
+	}
+		
+
+
 	public function new():Void {
+		super();
 		var mc : flash.display.MovieClip = flash.Lib.current;
-									//mc.stage.scaleMode = StageScaleMode.NO_SCALE;
+
 		sqSize = Std.int(mc.stage.width);
 		if(mc.stage.height<mc.stage.width){
 			sqSize = Std.int(mc.stage.height);
@@ -20,6 +35,8 @@ class Board {
 		for(x in 0...9) {
 			map.insert(x, line);
 		}
+		stage.addEventListener(MouseEvent.CLICK, myClick);
+		
 		
 	} 
 	
@@ -83,7 +100,8 @@ class Board {
 		}
 		
 	}
-	public function draw():Void{
+	public function draw():Void{	
+
 		var tileSize : Int = Std.int(sqSize/9);
 		drawLines(tileSize);
 		for(y in 0...9){
