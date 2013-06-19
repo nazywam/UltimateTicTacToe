@@ -25,21 +25,36 @@ class Board {
 	
 	private function drawO(posX : Int,  posY : Int,  size : Int):Void{
 	
+		var mc : flash.display.MovieClip = flash.Lib.current;
+		mc.graphics.beginFill( 0x000000 );
+		mc.graphics.moveTo( posX+10, posY+10 );
+		mc.graphics.lineTo( posX+10, posY+size-10 );
+		mc.graphics.lineTo( posX+size-10, posY+size-10 );
+		mc.graphics.lineTo( posX+size-10, posY+10 );
+		mc.graphics.endFill();
+
+		mc.graphics.beginFill( 0xFFFFFF );
+		mc.graphics.moveTo( posX+20, posY+20 );
+		mc.graphics.lineTo( posX+20, posY+size-20 );
+		mc.graphics.lineTo( posX+size-20, posY+size-20 );
+		mc.graphics.lineTo( posX+size-20, posY+20 );
+		mc.graphics.endFill();
+
 	}
 	private function drawX(posX : Int,  posY : Int,  size : Int):Void{
 		var mc : flash.display.MovieClip = flash.Lib.current;
 		mc.graphics.beginFill( 0x000000 );
-		mc.graphics.moveTo( posX, posY );
-		mc.graphics.lineTo( posX+size, posY+size );
-		mc.graphics.lineTo( posX+size-10, posY+size );
-		mc.graphics.lineTo( posX, posY+10 );
+		mc.graphics.moveTo( posX+10, posY+10 );
+		mc.graphics.lineTo( posX+size-10, posY+size-10 );
+		mc.graphics.lineTo( posX+size-10-10, posY+size-10 );
+		mc.graphics.lineTo( posX+10, posY+10+10 );
 		mc.graphics.endFill();
 
 		mc.graphics.beginFill( 0x000000 );
-		mc.graphics.moveTo( posX, posY+size );
-		mc.graphics.lineTo( posX+size, posY );
-		mc.graphics.lineTo( posX+size, posY+10 );
-		mc.graphics.lineTo( posX+10, posY+size );
+		mc.graphics.moveTo( posX+10, posY+size-10 );
+		mc.graphics.lineTo( posX+size-10, posY+10 );
+		mc.graphics.lineTo( posX+size-10, posY+10+10 );
+		mc.graphics.lineTo( posX+10+10, posY+size-10 );
 		mc.graphics.endFill();
 	}
 	private function drawLines(tileSize : Int):Void{
@@ -74,7 +89,11 @@ class Board {
 		for(y in 0...9){
 			for(x in 0...9){
 				if(map[y][x]==0){
-					//drawX(y*tileSize,x*tileSize, tileSize);
+					drawO(y*tileSize,x*tileSize, tileSize);
+					drawX(y*tileSize,x*tileSize, tileSize);
+				}
+				else if(map[y][x]==1){
+					drawX(y*tileSize,x*tileSize, tileSize);
 				}
 				else if(map[y][x]==2){
 					drawO(y*tileSize,x*tileSize, tileSize);
