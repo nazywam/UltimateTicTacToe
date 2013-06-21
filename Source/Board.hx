@@ -6,7 +6,7 @@ import flash.events.MouseEvent;
 class Board extends Sprite{
 	var map : Array<Int>;
 	var sqSize : Int;
-
+	var highlited : Array<Boolean>
 	function myClick(eventObject:MouseEvent) {
 		map[Std.int(eventObject.stageY/(sqSize/9))*9+Std.int(eventObject.stageX/(sqSize/9))]=1;
 		//trace(Std.int(eventObject.stageX/(sqSize/9)));
@@ -28,11 +28,15 @@ class Board extends Sprite{
 		}		
 
 		map = new Array<Int>();
-
+		highlited = new Array<Boolean>();
 		
 
 		for(x in 0...81) {
 			map.insert(x, 0);
+		}
+
+		for(x in 0...81) {
+			highlited.insert(x, true);
 		}
 		stage.addEventListener(MouseEvent.CLICK, myClick);
 		
@@ -75,7 +79,7 @@ class Board extends Sprite{
 	}
 	private function drawLines(tileSize : Int):Void{
 		var mc : flash.display.MovieClip = flash.Lib.current;
-		mc.graphics.clear();
+
 		var width : Int = 2;
 		for(x in 0...10){
 			
@@ -103,6 +107,22 @@ class Board extends Sprite{
 	public function draw():Void{	
 
 		var tileSize : Int = Std.int(sqSize/9);
+		var mc : flash.display.MovieClip = flash.Lib.current;
+		mc.graphics.clear();
+		for(x in 0...81){
+			if(highlited[x]){
+	
+				var posX : Int = x%9;		
+				var posY : Int = x/9;
+				mc.graphics.beginFill( 0x000000 );
+				mc.graphics.moveTo( x*tileSize, y*tileSize );				
+				mc.graphics.lineTo( x*tileSize, y*tileSize+tileSize );
+				mc.graphics.lineTo( x*tileSize+tileSize, y*tileSize+tileSize );				
+				mc.graphics.lineTo( x*tileSize+tileSize, y*tileSize );
+				mc.graphics.endFill();					
+			}
+			
+		}
 		drawLines(tileSize);
 		for(x in 0...81){
 			if(map[x]==1){
