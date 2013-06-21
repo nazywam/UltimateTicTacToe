@@ -6,13 +6,18 @@ import flash.events.MouseEvent;
 class Board extends Sprite{
 	var map : Array<Int>;
 	var sqSize : Int;
-	var highlited : Array<Boolean>
+	var highlited : Array<Bool>;
 	function myClick(eventObject:MouseEvent) {
-		map[Std.int(eventObject.stageY/(sqSize/9))*9+Std.int(eventObject.stageX/(sqSize/9))]=1;
+		var clicked : Int = Std.int(eventObject.stageY/(sqSize/9))*9+Std.int(eventObject.stageX/(sqSize/9));
+		if (highlited[clicked]){
+			map[clicked]=1;
+			highlited[clicked]=false;
+			chooseCorner(clicked);
+		}
+		
 		//trace(Std.int(eventObject.stageX/(sqSize/9)));
 		//trace(Std.int(eventObject.stageY/(sqSize/9)));
 		//trace(map[Std.int(eventObject.stageY/(sqSize/9))][Std.int(eventObject.stageX/(sqSize/9))]);
-		trace(map.toString());
 		draw();
 	}
 		
@@ -28,7 +33,7 @@ class Board extends Sprite{
 		}		
 
 		map = new Array<Int>();
-		highlited = new Array<Boolean>();
+		highlited = new Array<Bool>();
 		
 
 		for(x in 0...81) {
@@ -43,7 +48,7 @@ class Board extends Sprite{
 		
 	} 
 	
-	private function drawO(posY : Int,  posX : Int,  size : Int):Void{
+	private function drawO(posY : Int,  posX : Int,  size : Int, mc : flash.display.MovieClip):Void{
 	
 		var mc : flash.display.MovieClip = flash.Lib.current;
 		mc.graphics.beginFill( 0x000000 );
@@ -61,7 +66,7 @@ class Board extends Sprite{
 		mc.graphics.endFill();
 
 	}
-	private function drawX(posY : Int,  posX : Int,  size : Int):Void{
+	private function drawX(posY : Int,  posX : Int,  size : Int, mc : flash.display.MovieClip):Void{
 		var mc : flash.display.MovieClip = flash.Lib.current;
 		mc.graphics.beginFill( 0x000000 );
 		mc.graphics.moveTo( posX+10, posY+10 );
@@ -77,8 +82,7 @@ class Board extends Sprite{
 		mc.graphics.lineTo( posX+10+10, posY+size-10 );
 		mc.graphics.endFill();
 	}
-	private function drawLines(tileSize : Int):Void{
-		var mc : flash.display.MovieClip = flash.Lib.current;
+	private function drawLines(tileSize : Int, mc : flash.display.MovieClip):Void{
 
 		var width : Int = 2;
 		for(x in 0...10){
@@ -104,32 +108,66 @@ class Board extends Sprite{
 		}
 		
 	}
-	public function draw():Void{	
-
-		var tileSize : Int = Std.int(sqSize/9);
-		var mc : flash.display.MovieClip = flash.Lib.current;
+	private function drawHighlited(tileSize : Int, mc : flash.display.MovieClip){
 		mc.graphics.clear();
 		for(x in 0...81){
 			if(highlited[x]){
-	
-				var posX : Int = x%9;		
-				var posY : Int = x/9;
-				mc.graphics.beginFill( 0x000000 );
-				mc.graphics.moveTo( x*tileSize, y*tileSize );				
-				mc.graphics.lineTo( x*tileSize, y*tileSize+tileSize );
-				mc.graphics.lineTo( x*tileSize+tileSize, y*tileSize+tileSize );				
-				mc.graphics.lineTo( x*tileSize+tileSize, y*tileSize );
+				var posX : Int = Std.int(x%9);		
+				var posY : Int = Std.int(x/9);
+				mc.graphics.beginFill( 0xe7c389 );
+				mc.graphics.moveTo( posX*tileSize, posY*tileSize );				
+				mc.graphics.lineTo( posX*tileSize, posY*tileSize+tileSize );
+				mc.graphics.lineTo( posX*tileSize+tileSize, posY*tileSize+tileSize );				
+				mc.graphics.lineTo( posX*tileSize+tileSize, posY*tileSize );
 				mc.graphics.endFill();					
 			}
 			
 		}
-		drawLines(tileSize);
+	}
+	private function highlit(x : Int, y : Int){
+		for(q in 0...81){
+			highlited[q]=false;
+		}
+		for(y1 in 0...3){
+			for(x1 in 0...3){
+				var index : Int = (y1+y)*9+(x1+x);
+				if(map[index]==0){
+					highlited[index] = true;
+				}
+			}
+			
+		}
+	}
+	private function chooseCorner(x: Int){
+		trace(Std.int((x/9)%3)*3+(x%9)%3);
+		switch(Std.int((x/9)%3)*3+(x%9)%3){
+			case 0:highlit(0,0);
+			case 1:highlit(3,0);
+			case 2:highlit(6,0);
+			case 3:highlit(0,3);
+			case 4:highlit(3,3);
+			case 5:highlit(6,3);
+			case 6:highlit(0,6);
+			case 7:highlit(3,6);
+			case 8:highlit(6,6);
+
+		}
+	}
+	public function draw():Void{	
+
+		var tileSize : Int = Std.int(sqSize/9);
+		var mc : flash.display.MovieClip = flash.Lib.current;
+
+		
+		drawHighlited(tileSize, mc);
+		drawLines(tileSize, mc);
+
 		for(x in 0...81){
 			if(map[x]==1){
-				drawX(Std.int(x/9)*tileSize,Std.int(x%9)*tileSize, tileSize);
+				drawX(Std.int(x/9)*tileSize,Std.int(x%9)*tileSize, tileSize, mc);
 			}
 			else if(map[x]==2){
-				drawO(Std.int(x/9)*tileSize,Std.int(x%9)*tileSize, tileSize);
+				drawO(Std.int(x/9)*tileSize,Std.int(x%9)*tileSize, tileSize, mc);
 			}
 		}
 		}			
