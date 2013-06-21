@@ -75,6 +75,7 @@ class Board extends Sprite{
 	}
 	private function drawLines(tileSize : Int):Void{
 		var mc : flash.display.MovieClip = flash.Lib.current;
+		mc.graphics.clear();
 		var width : Int = 2;
 		for(x in 0...10){
 			
@@ -102,7 +103,6 @@ class Board extends Sprite{
 	public function draw():Void{	
 
 		var tileSize : Int = Std.int(sqSize/9);
-		graphics.clear;
 		drawLines(tileSize);
 		for(x in 0...81){
 			if(map[x]==1){
