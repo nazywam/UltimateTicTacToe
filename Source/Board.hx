@@ -7,17 +7,21 @@ class Board extends Sprite{
 	var map : Array<Int>;
 	var sqSize : Int;
 	var highlited : Array<Bool>;
+	var p1_turn : Bool;
 	function myClick(eventObject:MouseEvent) {
 		var clicked : Int = Std.int(eventObject.stageY/(sqSize/9))*9+Std.int(eventObject.stageX/(sqSize/9));
 		if (highlited[clicked]){
-			map[clicked]=1;
+			if(p1_turn){
+				map[clicked]=1;
+			}
+			else{
+				map[clicked]=2;
+			}
+			p1_turn=!p1_turn;
 			highlited[clicked]=false;
 			chooseCorner(clicked);
 		}
 		
-		//trace(Std.int(eventObject.stageX/(sqSize/9)));
-		//trace(Std.int(eventObject.stageY/(sqSize/9)));
-		//trace(map[Std.int(eventObject.stageY/(sqSize/9))][Std.int(eventObject.stageX/(sqSize/9))]);
 		draw();
 	}
 		
@@ -25,6 +29,7 @@ class Board extends Sprite{
 
 	public function new():Void {
 		super();
+		p1_turn = true;
 		var mc : flash.display.MovieClip = flash.Lib.current;
 
 		sqSize = Std.int(mc.stage.width);
@@ -69,17 +74,17 @@ class Board extends Sprite{
 	private function drawX(posY : Int,  posX : Int,  size : Int, mc : flash.display.MovieClip):Void{
 		var mc : flash.display.MovieClip = flash.Lib.current;
 		mc.graphics.beginFill( 0x000000 );
-		mc.graphics.moveTo( posX+10, posY+10 );
-		mc.graphics.lineTo( posX+size-10, posY+size-10 );
-		mc.graphics.lineTo( posX+size-10-10, posY+size-10 );
-		mc.graphics.lineTo( posX+10, posY+10+10 );
+		mc.graphics.moveTo( posX, posY );
+		mc.graphics.lineTo( posX+size, posY+size );
+		mc.graphics.lineTo( posX+size, posY+size );
+		mc.graphics.lineTo( posX, posY );
 		mc.graphics.endFill();
 
 		mc.graphics.beginFill( 0x000000 );
-		mc.graphics.moveTo( posX+10, posY+size-10 );
-		mc.graphics.lineTo( posX+size-10, posY+10 );
-		mc.graphics.lineTo( posX+size-10, posY+10+10 );
-		mc.graphics.lineTo( posX+10+10, posY+size-10 );
+		mc.graphics.moveTo( posX, posY+size );
+		mc.graphics.lineTo( posX+size, posY );
+		mc.graphics.lineTo( posX+size, posY );
+		mc.graphics.lineTo( posX, posY+size );
 		mc.graphics.endFill();
 	}
 	private function drawLines(tileSize : Int, mc : flash.display.MovieClip):Void{
@@ -125,6 +130,7 @@ class Board extends Sprite{
 		}
 	}
 	private function highlit(x : Int, y : Int){
+		var space : Bool = false;
 		for(q in 0...81){
 			highlited[q]=false;
 		}
@@ -132,10 +138,18 @@ class Board extends Sprite{
 			for(x1 in 0...3){
 				var index : Int = (y1+y)*9+(x1+x);
 				if(map[index]==0){
+					space = true;
 					highlited[index] = true;
 				}
 			}
 			
+		}
+		if (!space){
+			for(q in 0...81){
+				if(map[q]==0){
+					highlited[q]=true;
+				}
+			}
 		}
 	}
 	private function chooseCorner(x: Int){
