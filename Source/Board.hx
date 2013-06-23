@@ -162,6 +162,8 @@ class Board extends Sprite{
 		if (map[getIndex(x, y)] == map[getIndex(x+1, y)] && map[getIndex(x+2, y)] == 	map[getIndex(x, y)]) if(map[getIndex(x, y)]!=0)return map[getIndex(x, y)];
 		if (map[getIndex(x, y+1)] == map[getIndex(x+1, y+1)] && map[getIndex(x+2, y+1)] == map[getIndex(x, y+1)]) if(map[getIndex(x, y+1)]!=0)return map[getIndex(x, y+1)];
 		if (map[getIndex(x, y+2)] == map[getIndex(x+1, y+2)] && map[getIndex(x+2, y+2)] == map[getIndex(x, y+2)]) if(map[getIndex(x, y+2)]!=0)return map[getIndex(x, y+2)];
+		if (map[getIndex(x, y)] == map[getIndex(x+1, y+1)] && map[getIndex(x+2, y+2)] == map[getIndex(x, y)]) if(map[getIndex(x, y)]!=0)return map[getIndex(x, y)];
+		if (map[getIndex(x+2, y)] == map[getIndex(x+1, y+1)] && map[getIndex(x, y+2)] == map[getIndex(x+1, y+1)]) if(map[getIndex(x+1, y+1)]!=0)return map[getIndex(x+1, y+1)];
 		return 0;
 	}
 	private function highlitWinning(){
