@@ -75,8 +75,8 @@ class Board extends Sprite{
 		var mc : flash.display.MovieClip = flash.Lib.current;
 		mc.graphics.beginFill( 0x000000 );
 		mc.graphics.moveTo( posX, posY );
-		mc.graphics.lineTo( posX+size-10, posY+size );
-		mc.graphics.lineTo( posX+size-10, posY+size );
+		mc.graphics.lineTo( posX+size, posY+size );
+		mc.graphics.lineTo( posX+size, posY+size );
 		mc.graphics.lineTo( posX, posY+10 );
 		mc.graphics.endFill();
 
