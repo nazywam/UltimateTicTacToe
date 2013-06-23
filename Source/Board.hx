@@ -75,16 +75,16 @@ class Board extends Sprite{
 		var mc : flash.display.MovieClip = flash.Lib.current;
 		mc.graphics.beginFill( 0x000000 );
 		mc.graphics.moveTo( posX, posY );
-		mc.graphics.lineTo( posX+size, posY+size );
-		mc.graphics.lineTo( posX+size, posY+size );
-		mc.graphics.lineTo( posX, posY );
+		mc.graphics.lineTo( posX+size-10, posY+size );
+		mc.graphics.lineTo( posX+size-10, posY+size );
+		mc.graphics.lineTo( posX, posY+10 );
 		mc.graphics.endFill();
 
 		mc.graphics.beginFill( 0x000000 );
-		mc.graphics.moveTo( posX, posY+size );
-		mc.graphics.lineTo( posX+size, posY );
-		mc.graphics.lineTo( posX+size, posY );
-		mc.graphics.lineTo( posX, posY+size );
+		mc.graphics.moveTo( posX+10, posY+size-10 );
+		mc.graphics.lineTo( posX+size-10, posY+10 );
+		mc.graphics.lineTo( posX+size-10, posY+10+10 );
+		mc.graphics.lineTo( posX+10+10, posY+size-10 );
 		mc.graphics.endFill();
 	}
 	private function drawLines(tileSize : Int, mc : flash.display.MovieClip):Void{
