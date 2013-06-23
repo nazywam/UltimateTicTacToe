@@ -7,6 +7,7 @@ class Board extends Sprite{
 	var map : Array<Int>;
 	var sqSize : Int;
 	var highlited : Array<Bool>;
+	var highlitedWinning : Array<Int>;
 	var p1_turn : Bool;
 	function myClick(eventObject:MouseEvent) {
 		var clicked : Int = Std.int(eventObject.stageY/(sqSize/9))*9+Std.int(eventObject.stageX/(sqSize/9));
@@ -19,6 +20,7 @@ class Board extends Sprite{
 			}
 			p1_turn=!p1_turn;
 			highlited[clicked]=false;
+			highlitWinning();
 			chooseCorner(clicked);
 		}
 		
@@ -39,14 +41,18 @@ class Board extends Sprite{
 
 		map = new Array<Int>();
 		highlited = new Array<Bool>();
+		highlitedWinning = new Array<Int>();
 		
-
+	
 		for(x in 0...81) {
 			map.insert(x, 0);
 		}
 
 		for(x in 0...81) {
 			highlited.insert(x, true);
+		}
+		for(x in 0...81) {
+			highlitedWinning.insert(x, 0);
 		}
 		stage.addEventListener(MouseEvent.CLICK, myClick);
 		
@@ -56,7 +62,7 @@ class Board extends Sprite{
 	private function drawO(posY : Int,  posX : Int,  size : Int, mc : flash.display.MovieClip):Void{
 	
 		var mc : flash.display.MovieClip = flash.Lib.current;
-		mc.graphics.beginFill( 0x000000 );
+		mc.graphics.beginFill( 0x2f2d92 );
 		mc.graphics.moveTo( posX+10, posY+10 );
 		mc.graphics.lineTo( posX+10, posY+size-10 );
 		mc.graphics.lineTo( posX+size-10, posY+size-10 );
@@ -73,18 +79,22 @@ class Board extends Sprite{
 	}
 	private function drawX(posY : Int,  posX : Int,  size : Int, mc : flash.display.MovieClip):Void{
 		var mc : flash.display.MovieClip = flash.Lib.current;
-		mc.graphics.beginFill( 0x000000 );
-		mc.graphics.moveTo( posX, posY );
-		mc.graphics.lineTo( posX+size, posY+size );
-		mc.graphics.lineTo( posX+size, posY+size );
-		mc.graphics.lineTo( posX, posY+10 );
+		var width : Int = 6;
+		var move : Int = 10;
+		mc.graphics.beginFill( 0xb82424 );
+		mc.graphics.moveTo( posX+move, posY+width+move );
+		mc.graphics.lineTo( posX+width+move, posY+move );
+		mc.graphics.lineTo( posX+size-move, posY+size-width-move );
+		mc.graphics.lineTo( posX+size-width-move, posY+size-move );
+		mc.graphics.lineTo( posX+move, posY+width+move );
 		mc.graphics.endFill();
 
-		mc.graphics.beginFill( 0x000000 );
-		mc.graphics.moveTo( posX+10, posY+size-10 );
-		mc.graphics.lineTo( posX+size-10, posY+10 );
-		mc.graphics.lineTo( posX+size-10, posY+10+10 );
-		mc.graphics.lineTo( posX+10+10, posY+size-10 );
+		mc.graphics.beginFill( 0xb82424 );
+		mc.graphics.moveTo( posX+size-width-move, posY+move );
+		mc.graphics.lineTo( posX+size-move,posY+width+move );
+		mc.graphics.lineTo( posX+width+move, posY+size-move );
+		mc.graphics.lineTo( posX+move, posY+size-width-move );
+		mc.graphics.moveTo( posX+size-width-move, posY+move );	
 		mc.graphics.endFill();
 	}
 	private function drawLines(tileSize : Int, mc : flash.display.MovieClip):Void{
@@ -116,6 +126,19 @@ class Board extends Sprite{
 	private function drawHighlited(tileSize : Int, mc : flash.display.MovieClip){
 		mc.graphics.clear();
 		for(x in 0...81){
+			if(highlitedWinning[x]!=0){
+				var posX : Int = Std.int(x%9);		
+				var posY : Int = Std.int(x/9);
+				if(highlitedWinning[x]==1)mc.graphics.beginFill( 0xff3e3e );
+				else mc.graphics.beginFill( 0x4682b4 );
+				mc.graphics.moveTo( posX*tileSize, posY*tileSize );				
+				mc.graphics.lineTo( posX*tileSize, posY*tileSize+tileSize );
+				mc.graphics.lineTo( posX*tileSize+tileSize, posY*tileSize+tileSize );				
+				mc.graphics.lineTo( posX*tileSize+tileSize, posY*tileSize );
+				mc.graphics.endFill();
+			}
+		}
+		for(x in 0...81){
 			if(highlited[x]){
 				var posX : Int = Std.int(x%9);		
 				var posY : Int = Std.int(x/9);
@@ -129,6 +152,36 @@ class Board extends Sprite{
 			
 		}
 	}
+	private function getIndex(x : Int, y : Int) : Int{
+		return(y*9+x);
+	}
+	private function checkIfSomeoneWins(x : Int, y : Int) : Int {
+		if (map[getIndex(x, y)] == map[getIndex(x, y+1)] && map[getIndex(x, y+2)] == map[getIndex(x, y)]) if(map[getIndex(x, y)]!=0)return map[getIndex(x, y)];
+		if (map[getIndex(x+1, y)] == map[getIndex(x+1, y+1)] && map[getIndex(x+1, y+2)] == map[getIndex(x+1, y)]) if(map[getIndex(x+1, y)]!=0)return map[getIndex(x+1, y)];
+		if (map[getIndex(x+2, y)] == map[getIndex(x+2, y+1)] && map[getIndex(x+2, y+2)] == map[getIndex(x+2, y)]) if(map[getIndex(x+2, y)]!=0)return map[getIndex(x+2, y)];
+		if (map[getIndex(x, y)] == map[getIndex(x+1, y)] && map[getIndex(x+2, y)] == 	map[getIndex(x, y)]) if(map[getIndex(x, y)]!=0)return map[getIndex(x, y)];
+		if (map[getIndex(x, y+1)] == map[getIndex(x+1, y+1)] && map[getIndex(x+2, y+1)] == map[getIndex(x, y+1)]) if(map[getIndex(x, y+1)]!=0)return map[getIndex(x, y+1)];
+		if (map[getIndex(x, y+2)] == map[getIndex(x+1, y+2)] && map[getIndex(x+2, y+2)] == map[getIndex(x, y+2)]) if(map[getIndex(x, y+2)]!=0)return map[getIndex(x, y+2)];
+		return 0;
+	}
+	private function highlitWinning(){
+		for(y1 in 0...3){
+			for(x1 in 0...3){
+				for(rowX in 0...3){
+					if(highlitedWinning[getIndex(x1*3, y1*3)]==0){
+						var winner : Int = checkIfSomeoneWins(x1*3, y1*3);
+						if(winner!=0)
+							for (y2 in 0...3){
+								for (x2 in 0...3){
+									highlitedWinning[getIndex(x1*3+x2, y1*3+y2)]=winner;
+								}
+							}
+						}						
+					}
+				}
+			}
+		}
+	
 	private function highlit(x : Int, y : Int){
 		var space : Bool = false;
 		for(q in 0...81){
