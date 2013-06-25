@@ -60,25 +60,27 @@ class Board extends Sprite{
 	} 
 	
 	private function drawO(posY : Int,  posX : Int,  size : Int, mc : flash.display.MovieClip):Void{
+		
 	
-		var mc : flash.display.MovieClip = flash.Lib.current;
+		
 		mc.graphics.beginFill( 0x2f2d92 );
-		mc.graphics.moveTo( posX+10, posY+10 );
-		mc.graphics.lineTo( posX+10, posY+size-10 );
-		mc.graphics.lineTo( posX+size-10, posY+size-10 );
-		mc.graphics.lineTo( posX+size-10, posY+10 );
+		mc.graphics.drawCircle(posX+size/2, posY+size/2, size/2-10);
 		mc.graphics.endFill();
-
-		mc.graphics.beginFill( 0xFFFFFF );
-		mc.graphics.moveTo( posX+20, posY+20 );
-		mc.graphics.lineTo( posX+20, posY+size-20 );
-		mc.graphics.lineTo( posX+size-20, posY+size-20 );
-		mc.graphics.lineTo( posX+size-20, posY+20 );
+		if (highlitedWinning[Std.int(posY/size)*9 + Std.int(posX/size)]==1){
+			mc.graphics.beginFill( 0xff3e3e );
+		}
+		else if(highlitedWinning[Std.int(posY/size)*9 + Std.int(posX/size)]==2){
+			mc.graphics.beginFill( 0x4682b4 );
+		}
+		else{
+			mc.graphics.beginFill( 0xFFFFFF );
+		}	
+		mc.graphics.drawCircle(posX+size/2, posY+size/2, size/2-19);
 		mc.graphics.endFill();
 
 	}
 	private function drawX(posY : Int,  posX : Int,  size : Int, mc : flash.display.MovieClip):Void{
-		var mc : flash.display.MovieClip = flash.Lib.current;
+		//var mc : flash.display.MovieClip = flash.Lib.current;
 		var width : Int = 6;
 		var move : Int = 10;
 		mc.graphics.beginFill( 0xb82424 );
@@ -208,7 +210,6 @@ class Board extends Sprite{
 		}
 	}
 	private function chooseCorner(x: Int){
-		trace(Std.int((x/9)%3)*3+(x%9)%3);
 		switch(Std.int((x/9)%3)*3+(x%9)%3){
 			case 0:highlit(0,0);
 			case 1:highlit(3,0);
