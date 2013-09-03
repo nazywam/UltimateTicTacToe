@@ -194,7 +194,7 @@ class Board extends Sprite{
 		for(y1 in 0...3){
 			for(x1 in 0...3){
 				var index : Int = (y1+y)*9+(x1+x);
-				if(map[index]==0){
+				if(map[index]==0 && highlitedWinning[index]==0){
 					space = true;
 					highlited[index] = true;
 				}
@@ -203,7 +203,7 @@ class Board extends Sprite{
 		}
 		if (!space){
 			for(q in 0...81){
-				if(map[q]==0){
+				if(map[q]==0 && highlitedWinning[q]==0){
 					highlited[q]=true;
 				}
 			}
